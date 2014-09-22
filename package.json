@@ -1,0 +1,43 @@
+{
+  "name": "brew-tour",
+  "version": "0.0.1",
+  "description": "",
+  "keywords": [],
+  "homepage": "https://github.com/chbrown/brew-tour",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/chbrown/brew-tour.git"
+  },
+  "bugs": {
+    "email": "Christopher Brown <io@henrian.com>",
+    "url": "http://github.com/chbrown/brew-tour/issues"
+  },
+  "license": "MIT",
+  "author": "Christopher Brown <io@henrian.com> (http://henrian.com)",
+  "dependencies": {
+    "async": "*",
+    "http-enhanced": "*",
+    "htmlparser2": "*",
+    "lodash": "*",
+    "loge": "*",
+    "optimist": "*",
+    "regex-router": "*",
+    "send": "*",
+    "request": "*",
+    "streaming": "*"
+  },
+  "scripts": {
+  },
+  "staticPattern": "static/lib/{file}",
+  "staticDependencies": {
+    "angular": "*",
+    "angular-ui-router": "*",
+    "lo-dash": "*",
+    "misc-js": "git://github.com/chbrown/misc-js.git",
+    "ng-storage": "*"
+  },
+  "config": {
+    "hostname": "127.0.0.1",
+    "port": 1394
+  }
+}

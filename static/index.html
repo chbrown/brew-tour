@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <title>Brew Tour</title>
+  <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
+  <link href="/static/site.css" rel="stylesheet" type="text/css" />
+  <!-- vendor -->
+  <script src="/static/lib/lodash.min.js"></script>
+  <script src="/static/lib/angular.js"></script>
+  <script src="/static/lib/angular-resource.min.js"></script>
+  <script src="/static/lib/angular-ui-router.min.js"></script>
+  <script src="/static/lib/ngStorage.min.js"></script>
+  <script src="/static/lib/angular-plugins.js"></script>
+  <!-- local app -->
+  <script src="/static/ng/app.js"></script>
+</head>
+<body ng-app="app" ng-controller="formulasCtrl">
+  <nav fixedflow>
+    <div class="command">
+      <span ng-repeat="formula in formulas | filter:{checked:true}">{{formula.name}}&nbsp;</span>
+    </div>
+  </nav>
+  <table>
+    <thead>
+      <tr>
+        <th></th>
+        <th>Formula</th>
+        <th>Homepage</th>
+        <th>Version</th>
+        <th>Summary</th>
+      </tr>
+    </thead>
+    <tr ng-repeat="formula in formulas | limitTo:25 track by $index" formula="formula"></tr>
+  </table>
+</body>
