@@ -2,6 +2,7 @@ body{margin:0;padding:0;font-family:Arial,Verdana}
 nav{position:fixed;background-color:#EEE;padding:0 5px;width:100%;font-size:90%}
 nav .command{padding:2px;min-height:25px}
 .nowrap{white-space:nowrap}
+.hpad{padding:0 10px}
 table{border-collapse:collapse}
 table th{text-align:left;font-size:90%}
 table th,table td{vertical-align:top;padding:1px 5px;border-bottom:1px solid #CCC}

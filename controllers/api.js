@@ -35,7 +35,10 @@ homebrew.getFormulaInfo = function(formula_name, callback) {
 
   streaming.readToEnd(proc.stdout, function(err, chunks) {
     if (err) return callback(err);
+
     var content = chunks.join('');
+    logger.debug('Formula info for %s: %s', formula_name, content);
+    // TODO: this breaks for old things like gfortran and pil, which don't return JSON for --json=v1
     var data = JSON.parse(content);
     var formula = data[0];
 
@@ -64,7 +67,7 @@ R.get(/^\/api\/formulas$/, function(req, res) {
 R.get(/^\/api\/formulas\/([a-z0-9-]+)$/, function(req, res, m) {
   homebrew.getFormulaInfo(m[1], function(err, formula) {
     // max-age is in seconds; 86400 = 1 day; 3600 = 1 hour; 900 = 15 minutes
-    res.setHeader('Cache-Control', 'max-age=900'); // 86400
+    res.setHeader('Cache-Control', 'max-age=3600');
     res.json(formula);
   });
 });

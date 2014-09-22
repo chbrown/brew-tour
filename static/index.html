@@ -20,16 +20,19 @@
       <span ng-repeat="formula in formulas | filter:{checked:true}">{{formula.name}}&nbsp;</span>
     </div>
   </nav>
+  <div class="hpad">
+    <h3>Formulas ({{formulas.length}})</h3>
+  </div>
   <table>
     <thead>
       <tr>
         <th></th>
-        <th>Formula</th>
+        <th>Name</th>
         <th>Homepage</th>
         <th>Version</th>
         <th>Summary</th>
       </tr>
     </thead>
-    <tr ng-repeat="formula in formulas | limitTo:25 track by $index" formula="formula"></tr>
+    <tr ng-repeat="formula in formulas" formula="formula"></tr>
   </table>
 </body>
