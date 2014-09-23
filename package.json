@@ -1,8 +1,8 @@
 {
   "name": "brew-tour",
   "version": "0.0.1",
-  "description": "",
-  "keywords": [],
+  "description": "GUI and summarizer to help prune excess Homebrew-installed packages",
+  "keywords": ["homebrew", "gui", "cleanup"],
   "homepage": "https://github.com/chbrown/brew-tour",
   "repository": {
     "type": "git",
@@ -26,7 +26,8 @@
     "request": "*",
     "streaming": "*"
   },
-  "scripts": {
+  "bin": {
+    "brew-tour": "server.js"
   },
   "staticPattern": "static/lib/{file}",
   "staticDependencies": {

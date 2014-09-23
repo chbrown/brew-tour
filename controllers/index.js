@@ -10,4 +10,8 @@ var R = new Router(function(req, res) {
 R.any(/^\/api/, require('./api'));
 R.any(/^\/static/, require('./static'));
 
+R.get(/^\//, function(req, res) {
+  res.redirect('/static/index.html');
+});
+
 module.exports = R.route.bind(R);

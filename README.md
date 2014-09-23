@@ -1,26 +1,16 @@
 # brew-tour
 
-## Installation
+GUI and summarizer to help prune excess Homebrew-installed packages.
 
-**From npm:**
 
-```sh
-npm install brew-tour
-```
-
-**Or github:**
+## Install and run
 
 ```sh
-git clone https://github.com/chbrown/brew-tour.git
-cd brew-tour
-npm install -g
+npm install -g brew-tour
+brew-tour
 ```
 
-**Import:**
-
-```js
-var brew-tour = require('brew-tour');
-```
+Then open [`http://localhost:1394/`](http://localhost:1394/) in your browser.
 
 
 ## License

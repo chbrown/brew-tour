@@ -4,7 +4,12 @@ var Router = require('regex-router');
 var child_process = require('child_process');
 var logger = require('loge');
 var streaming = require('streaming');
-var request = require('request');
+var request = require('request').defaults({
+  headers: {
+    // libev blocks blank User-Agents; adopt current Chrome's
+    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36'
+  }
+});
 
 var summarize = require('../lib/summarize');
 
@@ -42,7 +47,7 @@ homebrew.getFormulaInfo = function(formula_name, callback) {
     var data = JSON.parse(content);
     var formula = data[0];
 
-    logger.info('Getting %s homepage: %s', formula_name, formula.homepage);
+    logger.debug('Fetching %s homepage: %s', formula_name, formula.homepage);
     request.get(formula.homepage, function(err, response, body) {
       if (err) return callback(err);
 
@@ -64,10 +69,10 @@ R.get(/^\/api\/formulas$/, function(req, res) {
   });
 });
 
-R.get(/^\/api\/formulas\/([a-z0-9-]+)$/, function(req, res, m) {
+R.get(/^\/api\/formulas\/([a-z0-9+-]+)$/, function(req, res, m) {
   homebrew.getFormulaInfo(m[1], function(err, formula) {
     // max-age is in seconds; 86400 = 1 day; 3600 = 1 hour; 900 = 15 minutes
-    res.setHeader('Cache-Control', 'max-age=3600');
+    res.setHeader('Cache-Control', 'max-age=86400');
     res.json(formula);
   });
 });
