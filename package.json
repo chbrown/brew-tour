@@ -1,8 +1,12 @@
 {
   "name": "brew-tour",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "GUI and summarizer to help prune excess Homebrew-installed packages",
-  "keywords": ["homebrew", "gui", "cleanup"],
+  "keywords": [
+    "homebrew",
+    "gui",
+    "cleanup"
+  ],
   "homepage": "https://github.com/chbrown/brew-tour",
   "repository": {
     "type": "git",
