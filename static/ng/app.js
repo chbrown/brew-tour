@@ -19,6 +19,12 @@ app.controller('formulasCtrl', function($scope, $http, $localStorage, Formula) {
   $scope.$storage = $localStorage.$default();
 
   $scope.formulas = Formula.query();
+
+  $scope.check_all = function() {
+    $scope.formulas.forEach(function(formula) {
+      formula.checked = true;
+    });
+  };
 });
 
 app.directive('formula', function($http) {

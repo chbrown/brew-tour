@@ -17,7 +17,7 @@
 <body ng-app="app" ng-controller="formulasCtrl">
   <nav fixedflow>
     <div class="command">
-      <span ng-repeat="formula in formulas | filter:{checked:true}">{{formula.name}}&nbsp;</span>
+      brew uninstall <span ng-repeat="formula in formulas | filter:{checked:true}">{{formula.name}}&nbsp;</span>
     </div>
   </nav>
   <div class="hpad">
@@ -35,4 +35,7 @@
     </thead>
     <tr ng-repeat="formula in formulas" formula="formula"></tr>
   </table>
+  <div style="padding: 10px">
+    <button ng-click="check_all()">Check all</button>
+  </div>
 </body>
