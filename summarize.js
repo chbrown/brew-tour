@@ -26,7 +26,7 @@ var meta_scores = {
   author: 1000,
 };
 
-var Handler = module.exports = function(callback) {
+var Handler = function(callback) {
   /** From the docs: https://github.com/fb55/htmlparser2/wiki/Parser-options
 
       onopentag(<str> name, <obj> attributes)
@@ -114,21 +114,3 @@ var summarize = module.exports = function(html, minimum_score, callback) {
   parser.write(html);
   parser.end();
 };
-
-if (require.main === module) {
-  var request = require('request');
-  var async = require('async');
-
-  var argv = require('optimist').argv;
-
-  async.each(argv._, function(url, callback) {
-    request.get(url, function(err, response, body) {
-      if (err) throw err;
-      summarize(body, 25, function(err, text) {
-        if (err) throw err;
-
-        console.log(url, text);
-      });
-    });
-  });
-}

@@ -40,9 +40,5 @@
     "lo-dash": "*",
     "misc-js": "git://github.com/chbrown/misc-js.git",
     "ng-storage": "*"
-  },
-  "config": {
-    "hostname": "127.0.0.1",
-    "port": 1394
   }
 }
