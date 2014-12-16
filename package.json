@@ -1,6 +1,6 @@
 {
   "name": "brew-tour",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "GUI and summarizer to help prune excess Homebrew-installed packages",
   "keywords": [
     "homebrew",
