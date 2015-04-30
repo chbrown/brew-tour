@@ -8,7 +8,7 @@ jslint with 'browser: true' really ought to recognize 'Event' as a global type
 */
 angular.module('misc-js/angular-plugins', [])
 // # Filters
-.filter('trust', function($sce) {
+.filter('trustHtml', function($sce) {
   /** ng-bind-html="something.html | trust" lets us easily trust something as html
 
   Here's how you could  completely disable SCE:
@@ -20,6 +20,11 @@ angular.module('misc-js/angular-plugins', [])
   */
   return function(string) {
     return $sce.trustAsHtml(string);
+  };
+})
+.filter('trustResourceUrl', function($sce) {
+  return function(string) {
+    return $sce.trustAsResourceUrl(string);
   };
 })
 // # Directives
@@ -67,6 +72,7 @@ angular.module('misc-js/angular-plugins', [])
       var height = getComputedStyle(el[0]).height;
       var placeholder = angular.element('<div>');
       placeholder.css('height', height);
+      placeholder.addClass('fixedflow-placeholder');
       el.after(placeholder);
     }
   };
@@ -209,14 +215,6 @@ angular.module('misc-js/angular-plugins', [])
     }
   };
 })
-.directive('throbber', function() {
-  /** Presumably the rest of misc-js is installed nearby.
-  */
-  return {
-    restrict: 'E',
-    template: '<img src="/static/lib/img/throbber-24.gif">'
-  };
-})
 .directive('score', function() {
   /** Use like:
 
@@ -329,65 +327,6 @@ angular.module('misc-js/angular-plugins', [])
     },
   };
 })
-.directive('checkboxSequence', function($http) {
-  /** Use like:
-
-    <ul checkbox-sequence>
-      <li ng-repeat="user in users">
-        <label><input type="checkbox" ng-model="user.selected"> {{user.name}}</label>
-      </li>
-    </ul>
-
-  */
-  return {
-    restrict: 'A',
-    link: function(scope, el, attrs) {
-      var previous_checkbox = null;
-      // previous_action == true means the last selection was to change
-      // a checkbox from unchecked to checked
-      var previous_action = null;
-
-      // addEventListener('DOMSubtreeModified', function()
-      // requires jQuery (not just jQ-lite) for the selector stuff
-      var sel = 'input[type="checkbox"]';
-      el.on('click', sel, function(ev) {
-        var action = ev.target.checked; // true = just checked, false = just unchecked
-        if (ev.shiftKey) {
-          if (action === previous_action && previous_checkbox) {
-            var checkboxes = el.find(sel);
-            var inside = false;
-            // select all entries between the two, inclusive
-            for (var i = 0, l = checkboxes.length; i < l; i++) {
-              var checkbox = checkboxes[i];
-              var boundary = checkbox == previous_checkbox || checkbox == ev.target;
-              if (boundary) {
-                if (inside === false) {
-                  // the first boundary we hit puts us inside
-                  inside = true;
-                }
-                else {
-                  // the secondary boundary puts us outside, so we break out
-                  break;
-                }
-              }
-              else if (inside) {
-                checkbox.checked = action;
-                // checkbox.dispatchEvent(new Event('input', true, true));
-                // angular.element(checkbox).trigger('click');
-                // angular.element(checkbox).trigger('change');
-                // angular.element(checkbox).prop('checked', action);
-                angular.element(checkbox).triggerHandler('click');
-              }
-            }
-          }
-        }
-        previous_checkbox = ev.target;
-        previous_action = action;
-      });
-
-    },
-  };
-})
 .directive('mapObject', function() {
   /** Use like:
 
@@ -404,6 +343,49 @@ angular.module('misc-js/angular-plugins', [])
     replace: true,
     scope: {
       mapObject: '=',
+    }
+  };
+})
+.directive('onUpload', function($parse) {
+  /** AngularJS documentation for the input directive:
+
+  > Note: Not every feature offered is available for all input types.
+  > Specifically, data binding and event handling via ng-model is
+  > unsupported for input[file].
+
+  So we have this little shim to fill in for that.
+
+  Use like:
+
+      <input type="file" on-upload="file = $file">
+
+  Or:
+
+      <input type="file" on-upload="handle($files)" multiple>
+
+  */
+  return {
+    restrict: 'A',
+    compile: function(el, attrs) {
+      var fn = $parse(attrs.onUpload);
+      return function(scope, element, attr) {
+        // the element we listen to inside the link function should not be the
+        // element from the compile function signature; that one may match up
+        // with the linked one, but maybe not, if this element does not occur
+        // directly in the DOM, e.g., if it's inside a ng-repeat or ng-if.
+        element.on('change', function(event) {
+          scope.$apply(function() {
+            var context = {$event: event};
+            if (attrs.multiple) {
+              context.$files = event.target.files;
+            }
+            else {
+              context.$file = event.target.files[0];
+            }
+            fn(scope, context);
+          });
+        });
+      };
     }
   };
 })
@@ -444,7 +426,6 @@ angular.module('misc-js/angular-plugins', [])
       };
 
       scope.$on('flash', function(ev, value, timeout) {
-        // var throbber_el = angular.element('<img src="/static/lib/img/throbber-16.gif">');
         scope.add('...');
 
         // for some reason, .finally() doesn't get the promise's value,
