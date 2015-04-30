@@ -1,5 +1,3 @@
-/*jslint node: true */
-var logger = require('loge');
 var htmlparser2 = require('htmlparser2');
 
 var tag_scores = {
@@ -49,22 +47,15 @@ var Handler = function(callback) {
   this._score = 1;
   this._position = -50;
 };
-
 Handler.prototype.onreset = function() {
-  // logger.debug('Handler reset');
   Handler.call(this, this.callback);
 };
-
 Handler.prototype.onend = function() {
-  // logger.debug('Handler end');
   this.callback(null, this.spans);
 };
-
 Handler.prototype.onerror = function(error) {
-  logger.error('HTML Handler error: %s', error);
   this.callback(error);
 };
-
 Handler.prototype.onopentag = function(name, attribs) {
   this._score += tag_scores[name] || 0;
 
@@ -75,11 +66,9 @@ Handler.prototype.onopentag = function(name, attribs) {
     });
   }
 };
-
 Handler.prototype.onclosetag = function(name) {
   this._score -= tag_scores[name] || 0;
 };
-
 Handler.prototype.ontext = function(data) {
   if (this.spans.length && this.spans[this.spans.length - 1].score == this._score) {
     // merge if possible
@@ -94,7 +83,7 @@ Handler.prototype.ontext = function(data) {
   });
 };
 
-var summarize = module.exports = function(html, minimum_score, callback) {
+module.exports = function(html, minimum_score, callback) {
   var handler = new Handler(function(err, spans) {
     if (err) return callback(err);
 

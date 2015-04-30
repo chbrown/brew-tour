@@ -1,6 +1,4 @@
-/*jslint node: true */
 var Router = require('regex-router');
-
 var homebrew = require('../homebrew');
 
 var R = new Router(function(req, res) {
@@ -14,7 +12,7 @@ R.get(/^\/api\/formulas$/, function(req, res) {
   });
 });
 
-R.get(/^\/api\/formulas\/([a-z0-9+-]+)$/, function(req, res, m) {
+R.get(/^\/api\/formulas\/([a-z0-9+_-]+)$/, function(req, res, m) {
   homebrew.getFormulaInfo(m[1], function(err, formula) {
     // max-age is in seconds; 86400 = 1 day; 3600 = 1 hour; 900 = 15 minutes
     res.setHeader('Cache-Control', 'max-age=86400');

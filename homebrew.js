@@ -1,4 +1,3 @@
-/*jslint node: true */
 var child_process = require('child_process');
 var streaming = require('streaming');
 var logger = require('loge');
@@ -29,27 +28,37 @@ exports.getFormulaInfo = function(formula_name, callback) {
   // See https://github.com/Homebrew/homebrew/wiki/Querying-Brew for --json=v1 info
   var proc = child_process.spawn('brew', ['info', '--json=v1', formula_name]);
   proc.stdout.setEncoding('utf8');
-
   streaming.readToEnd(proc.stdout, function(err, chunks) {
     if (err) return callback(err);
 
     var content = chunks.join('');
     logger.debug('Formula info for %s: %s', formula_name, content);
-    // TODO: this breaks for old things like gfortran and pil, which don't return JSON for --json=v1
-    var data = JSON.parse(content);
-    var formula = data[0];
+    var formula;
+    try {
+      // this breaks for old things like gfortran and pil, which don't return JSON for --json=v1
+      var formulas = JSON.parse(content);
+      formula = formulas[0];
+    }
+    catch (exc) {
+      logger.error('Error parsing JSON: %s', exc.message);
+    }
 
-    logger.debug('Fetching %s homepage: %s', formula_name, formula.homepage);
-    request.get(formula.homepage, function(err, response, body) {
-      if (err) return callback(err);
-
-      summarize(body, 25, function(err, summary) {
+    if (formula) {
+      logger.debug('Fetching %s homepage: %s', formula_name, formula.homepage);
+      request.get(formula.homepage, function(err, response, body) {
         if (err) return callback(err);
 
-        formula.summary = summary;
+        summarize(body, 25, function(err, summary) {
+          if (err) return callback(err);
 
-        callback(err, formula);
+          formula.summary = summary;
+
+          callback(err, formula);
+        });
       });
-    });
+    }
+    else {
+      callback(err, formula);
+    }
   });
 };

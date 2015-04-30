@@ -22,23 +22,33 @@
     "async": "*",
     "http-enhanced": "*",
     "htmlparser2": "*",
-    "lodash": "*",
     "loge": "*",
-    "optimist": "*",
     "regex-router": "*",
     "send": "*",
     "request": "*",
-    "streaming": "*"
+    "streaming": "*",
+    "yargs": "*"
   },
   "bin": {
-    "brew-tour": "server.js"
+    "brew-tour": "bin/brew-tour"
+  },
+  "scripts": {
+    "start": "node bin/brew-tour"
   },
   "staticPattern": "static/lib/{file}",
   "staticDependencies": {
-    "angular": "*",
-    "angular-ui-router": "*",
-    "lo-dash": "*",
-    "misc-js": "git://github.com/chbrown/misc-js.git",
+    "angular": {
+      "filter": [
+        "angular.min.js",
+        "angular-resource.min.js"
+      ]
+    },
+    "misc-js": {
+      "url": "git://github.com/chbrown/misc-js.git",
+      "filter": [
+        "angular-plugins.js"
+      ]
+    },
     "ng-storage": "*"
   }
 }

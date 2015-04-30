@@ -1,0 +1,33 @@
+#!/usr/bin/env node
+var logger = require('loge');
+
+var yargs = require('yargs')
+  .usage('brew-tour --port 1394 -v')
+  .describe({
+    hostname: 'hostname to listen on',
+    port: 'port to listen on',
+    help: 'print this help message',
+    verbose: 'print extra output',
+    version: 'print version',
+  })
+  .boolean(['help', 'verbose', 'version'])
+  .alias({help: 'h', port: 'p', verbose: 'v'})
+  .default({
+    hostname: process.env.HOSTNAME || '127.0.0.1',
+    port: parseInt(process.env.PORT) || 8080,
+    verbose: process.env.DEBUG !== undefined,
+  });
+
+var argv = yargs.argv;
+logger.level = argv.verbose ? 'debug' : 'info';
+
+if (argv.help) {
+  yargs.showHelp();
+}
+else if (argv.version) {
+  console.log(require('../package').version);
+}
+else {
+  var server = require('../server');
+  server.listen(argv.port, argv.hostname);
+}
