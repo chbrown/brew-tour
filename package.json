@@ -19,7 +19,6 @@
   "license": "MIT",
   "author": "Christopher Brown <io@henrian.com> (http://henrian.com)",
   "dependencies": {
-    "async": "*",
     "http-enhanced": "*",
     "htmlparser2": "*",
     "loge": "*",
