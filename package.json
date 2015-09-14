@@ -19,9 +19,9 @@
   "license": "MIT",
   "author": "Christopher Brown <io@henrian.com> (http://henrian.com)",
   "dependencies": {
-    "http-enhanced": "*",
+    "http-enhanced": "~0.5.3",
     "htmlparser2": "*",
-    "loge": "*",
+    "loge": "~0.0.3",
     "regex-router": "*",
     "send": "*",
     "request": "*",

@@ -1,7 +1,7 @@
 all: static/site.css static/img/favicon.ico
 
 %.css: %.less
-	lessc $+ | cleancss --keep-line-breaks --skip-advanced -o $@
+	lessc $< | cleancss --keep-line-breaks --skip-advanced -o $@
 
 static/img/favicon-%.png: static/img/favicon.png
 	convert $^ -resize $*x$* $@.tmp
