@@ -1,6 +1,5 @@
 var child_process = require('child_process');
 var streaming = require('streaming');
-var logger = require('loge');
 var summarize = require('./summarize');
 
 var request = require('request').defaults({
@@ -10,7 +9,7 @@ var request = require('request').defaults({
   }
 });
 
-exports.getFormulas = function(callback) {
+function getFormulas(callback) {
   var proc = child_process.spawn('brew', ['list']);
   var stream = proc.stdout.pipe(new streaming.Splitter()).setEncoding('utf8');
   streaming.readToEnd(stream, function(err, formula_names) {
@@ -22,9 +21,10 @@ exports.getFormulas = function(callback) {
 
     callback(null, formulas);
   });
-};
+}
+exports.getFormulas = getFormulas;
 
-exports.getFormulaInfo = function(formula_name, callback) {
+function getFormulaInfo(formula_name, callback) {
   // See https://github.com/Homebrew/homebrew/wiki/Querying-Brew for --json=v1 info
   var proc = child_process.spawn('brew', ['info', '--json=v1', formula_name]);
   proc.stdout.setEncoding('utf8');
@@ -32,7 +32,7 @@ exports.getFormulaInfo = function(formula_name, callback) {
     if (err) return callback(err);
 
     var content = chunks.join('');
-    logger.debug('Formula info for %s: %s', formula_name, content);
+    console.info('Formula info for %s: %s', formula_name, content);
     var formula;
     try {
       // this breaks for old things like gfortran and pil, which don't return JSON for --json=v1
@@ -40,11 +40,11 @@ exports.getFormulaInfo = function(formula_name, callback) {
       formula = formulas[0];
     }
     catch (exc) {
-      logger.error('Error parsing JSON: %s', exc.message);
+      console.error('Error parsing JSON: %s', exc.message);
     }
 
     if (formula) {
-      logger.debug('Fetching %s homepage: %s', formula_name, formula.homepage);
+      console.info('Fetching %s homepage: %s', formula_name, formula.homepage);
       request.get(formula.homepage, function(err, response, body) {
         if (err) return callback(err);
 
@@ -61,4 +61,5 @@ exports.getFormulaInfo = function(formula_name, callback) {
       callback(err, formula);
     }
   });
-};
+}
+exports.getFormulaInfo = getFormulaInfo;

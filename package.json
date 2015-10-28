@@ -19,12 +19,9 @@
   "license": "MIT",
   "author": "Christopher Brown <io@henrian.com> (http://henrian.com)",
   "dependencies": {
-    "http-enhanced": "~0.5.3",
     "htmlparser2": "*",
-    "loge": "~0.0.3",
-    "regex-router": "*",
-    "send": "*",
     "request": "*",
+    "restify": "*",
     "streaming": "*",
     "yargs": "*"
   },
@@ -33,21 +30,5 @@
   },
   "scripts": {
     "start": "node bin/brew-tour"
-  },
-  "staticPattern": "static/lib/{file}",
-  "staticDependencies": {
-    "angular": {
-      "filter": [
-        "angular.min.js",
-        "angular-resource.min.js"
-      ]
-    },
-    "misc-js": {
-      "url": "git://github.com/chbrown/misc-js.git",
-      "filter": [
-        "angular-plugins.js"
-      ]
-    },
-    "ng-storage": "*"
   }
 }

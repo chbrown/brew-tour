@@ -1,6 +1,4 @@
 #!/usr/bin/env node
-var logger = require('loge');
-
 var yargs = require('yargs')
   .usage('brew-tour --port 1394 -v')
   .describe({
@@ -19,7 +17,6 @@ var yargs = require('yargs')
   });
 
 var argv = yargs.argv;
-logger.level = argv.verbose ? 'debug' : 'info';
 
 if (argv.help) {
   yargs.showHelp();
