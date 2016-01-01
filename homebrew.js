@@ -1,17 +1,18 @@
 var child_process = require('child_process');
 var streaming = require('streaming');
-var summarize = require('./summarize');
+var Splitter = require('streaming/splitter').Splitter;
+var websum = require('websum');
 
 var request = require('request').defaults({
   headers: {
     // libev happens to blocks blank User-Agents (?!); adopt current Chrome's
-    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36'
-  }
+    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36',
+  },
 });
 
 function getFormulas(callback) {
   var proc = child_process.spawn('brew', ['list']);
-  var stream = proc.stdout.pipe(new streaming.Splitter()).setEncoding('utf8');
+  var stream = proc.stdout.pipe(new Splitter()).setEncoding('utf8');
   streaming.readToEnd(stream, function(err, formula_names) {
     if (err) return callback(err);
 
@@ -48,7 +49,7 @@ function getFormulaInfo(formula_name, callback) {
       request.get(formula.homepage, function(err, response, body) {
         if (err) return callback(err);
 
-        summarize(body, 25, function(err, summary) {
+        websum.summarizeHtml(body, 25, function(err, summary) {
           if (err) return callback(err);
 
           formula.summary = summary;

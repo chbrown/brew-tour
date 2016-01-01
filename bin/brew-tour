@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-var yargs = require('yargs')
+var argvparser = require('optimist')
   .usage('brew-tour --port 1394 -v')
   .describe({
     hostname: 'hostname to listen on',
@@ -16,10 +16,10 @@ var yargs = require('yargs')
     verbose: process.env.DEBUG !== undefined,
   });
 
-var argv = yargs.argv;
+var argv = argvparser.argv;
 
 if (argv.help) {
-  yargs.showHelp();
+  argvparser.showHelp();
 }
 else if (argv.version) {
   console.log(require('../package').version);

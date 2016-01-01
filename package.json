@@ -10,7 +10,7 @@
   "homepage": "https://github.com/chbrown/brew-tour",
   "repository": {
     "type": "git",
-    "url": "git://github.com/chbrown/brew-tour.git"
+    "url": "https://github.com/chbrown/brew-tour.git"
   },
   "bugs": {
     "email": "Christopher Brown <io@henrian.com>",
@@ -19,11 +19,11 @@
   "license": "MIT",
   "author": "Christopher Brown <io@henrian.com> (http://henrian.com)",
   "dependencies": {
-    "htmlparser2": "*",
+    "optimist": "*",
     "request": "*",
     "restify": "*",
-    "streaming": "*",
-    "yargs": "*"
+    "streaming": "1.0.3",
+    "websum": "0.1.0"
   },
   "bin": {
     "brew-tour": "bin/brew-tour"
