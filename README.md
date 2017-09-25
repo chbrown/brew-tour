@@ -17,4 +17,5 @@ This app will not modify your Homebrew installation in any way. It will use chil
 
 ## License
 
-Copyright 2014-2015 Christopher Brown. [MIT Licensed](http://opensource.org/licenses/MIT).
+Copyright (c) 2014-2017 Christopher Brown.
+[MIT Licensed](https://chbrown.github.io/licenses/MIT/#2014-2017).
