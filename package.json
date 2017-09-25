@@ -21,7 +21,7 @@
   "dependencies": {
     "optimist": "*",
     "request": "*",
-    "restify": "*",
+    "restify": "6.0.1",
     "streaming": "1.0.3",
     "websum": "0.1.0"
   },

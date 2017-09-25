@@ -3,7 +3,7 @@ const homebrew = require('./homebrew');
 
 const app = restify.createServer();
 
-app.get(/\/static\/?.*/, restify.serveStatic({
+app.get(/\/static\/?.*/, restify.plugins.serveStatic({
   directory: __dirname,
   default: 'index.html',
 }));
