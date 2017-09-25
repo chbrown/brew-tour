@@ -1,5 +1,7 @@
 #!/usr/bin/env node
-var argvparser = require('optimist')
+const optimist = require('optimist');
+
+const argvparser = optimist
   .usage('brew-tour --port 1394 -v')
   .describe({
     hostname: 'hostname to listen on',
@@ -16,15 +18,19 @@ var argvparser = require('optimist')
     verbose: process.env.DEBUG !== undefined,
   });
 
-var argv = argvparser.argv;
+function main() {
+  const argv = argvparser.argv;
 
-if (argv.help) {
-  argvparser.showHelp();
+  if (argv.help) {
+    argvparser.showHelp();
+  }
+  else if (argv.version) {
+    console.log(require('../package').version);
+  }
+  else {
+    const server = require('../server');
+    server.listen(argv.port, argv.hostname);
+  }
 }
-else if (argv.version) {
-  console.log(require('../package').version);
-}
-else {
-  var server = require('../server');
-  server.listen(argv.port, argv.hostname);
-}
+
+if (require.main === module) main();
