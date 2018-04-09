@@ -1,4 +1,9 @@
-/*jslint browser: true */ /*globals angular */
+import angular from 'angular'
+import 'angular-resource'
+import 'ngstorage'
+
+import './site.less'
+
 angular.module('app', [
   'ngResource',
   'ngStorage',
