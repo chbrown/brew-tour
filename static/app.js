@@ -2,8 +2,20 @@
 angular.module('app', [
   'ngResource',
   'ngStorage',
-  'misc-js/angular-plugins',
 ])
+.directive('fixedflow', function() {
+  return {
+    restrict: 'A',
+    link(scope, el) {
+      el.css('position', 'fixed')
+      const height = getComputedStyle(el[0]).height
+      const placeholder = angular.element('<div>')
+      placeholder.css('height', height)
+      placeholder.addClass('fixedflow-placeholder')
+      el.after(placeholder)
+    },
+  }
+})
 .directive('formula', function() {
   return {
     restrict: 'A',
