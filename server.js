@@ -33,8 +33,8 @@ app.get('/', (req, res, next) => {
 })
 
 app.on('listening', function() {
-  const address = this.address()
-  console.info('server listening on http://%s:%d', address.address, address.port)
+  const {address, port} = app.address()
+  console.info('server listening on http://%s:%d', address, port)
 })
 
 module.exports = app
