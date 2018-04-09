@@ -24,7 +24,17 @@ angular.module('app', [
 .directive('formula', function() {
   return {
     restrict: 'A',
-    templateUrl: '/static/formula.html',
+    template: `
+      <tr>
+        <td><input type="checkbox" ng-model="formula.checked"></td>
+        <td class="nowrap">{{formula.name}}</td>
+        <td><a href="{{formula.homepage}}" target="_blank">{{formula.homepage}}</a></td>
+        <td>{{formula.versions.stable}}</td>
+        <td>
+          <div class="summary">{{formula.summary}}</div>
+        </td>
+      </tr>
+    `,
     replace: true,
     scope: {
       formula: '=',
