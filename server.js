@@ -1,4 +1,6 @@
+const optimist = require('optimist')
 const restify = require('restify')
+
 const homebrew = require('./homebrew')
 
 const app = restify.createServer()
@@ -36,3 +38,39 @@ app.on('listening', function() {
 })
 
 module.exports = app
+
+function main() {
+  const argvparser = optimist
+  .usage('brew-tour --port 1394 -v')
+  .describe({
+    hostname: 'hostname to listen on',
+    port: 'port to listen on',
+    help: 'print this help message',
+    verbose: 'print extra output',
+    version: 'print version',
+  })
+  .boolean(['help', 'verbose', 'version'])
+  .alias({help: 'h', port: 'p', verbose: 'v'})
+  .default({
+    hostname: process.env.HOSTNAME || '127.0.0.1',
+    port: parseInt(process.env.PORT, 10) || 1394,
+    verbose: process.env.DEBUG !== undefined,
+  })
+
+  const argv = argvparser.argv
+
+  if (argv.help) {
+    argvparser.showHelp()
+  }
+  else if (argv.version) {
+    console.log(require('./package').version)
+  }
+  else {
+    app.listen(argv.port, argv.hostname)
+  }
+}
+module.exports.main = main
+
+if (require.main === module) {
+  main()
+}
