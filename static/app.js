@@ -10,31 +10,31 @@ angular.module('app', [
     templateUrl: '/static/formula.html',
     replace: true,
     scope: {
-      formula: '='
+      formula: '=',
     },
-    link: function(scope, el) {
-      scope.formula.$get();
-      el.on('click', function() {
-        scope.$apply(function() {
-          scope.formula.checked = !scope.formula.checked;
-        });
-      });
-    }
-  };
+    link(scope, el) {
+      scope.formula.$get()
+      el.on('click', () => {
+        scope.$apply(() => {
+          scope.formula.checked = !scope.formula.checked
+        })
+      })
+    },
+  }
 })
 .service('Formula', function($resource) {
   return $resource('/api/formulas/:name', {
     name: '@name',
-  });
+  })
 })
 .controller('formulasCtrl', function($scope, $http, $localStorage, Formula) {
-  $scope.$storage = $localStorage.$default();
+  $scope.$storage = $localStorage.$default()
 
-  $scope.formulas = Formula.query();
+  $scope.formulas = Formula.query()
 
-  $scope.check_all = function() {
-    $scope.formulas.forEach(function(formula) {
-      formula.checked = true;
-    });
-  };
-});
+  $scope.check_all = () => {
+    $scope.formulas.forEach(formula => {
+      formula.checked = true
+    })
+  }
+})
